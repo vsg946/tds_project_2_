@@ -1,89 +1,56 @@
-# **LLM Analysis Quiz Solver**
-### **Autonomous Multi-Step Quiz Solving Agent**
-**Developer: Shiva Ganesh**
+# 🤖 Autonomous Data Quiz Solver Agent
 
----
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 
-# **Overview**
-The LLM Analysis Quiz Solver is an autonomous agent that uses LangGraph, LangChain, FastAPI, Playwright, and Google Gemini to solve multi-step quiz tasks. It can scrape webpages, extract data, run Python code, download files, analyze information, and automatically submit answers. Once a quiz URL is provided, the agent processes each page until the entire quiz sequence is completed.
+This intelligent agent was developed by **Shiva Ganesh V** for the **Tools in Data Science (TDS) course** at IIT Madras. Its core function is to autonomously solve complex, multi-step data analysis quizzes presented as a chain of web pages.
 
----
+## 💡 Core Technology & Design
 
-# **Key Features**
-- Fully autonomous quiz solving  
-- JavaScript rendering using Playwright  
-- Python code execution for analysis  
-- File downloading and parsing  
-- On-the-fly dependency installation  
-- FastAPI backend for REST integration  
-- Docker-ready deployment (HuggingFace / Railway)  
-- LangGraph-based decision engine  
+The agent is an application of advanced LLM orchestration, designed for robust decision-making and tool use.
 
----
-
-# **Architecture**
-FastAPI → LangGraph Agent → Tools Layer  
-  ├─ Web Scraper  
-  ├─ Downloader  
-  ├─ Code Executor  
-  ├─ POST Request Sender  
-  └─ Dependency Installer  
-
-The agent uses a state-machine approach where each step of the quiz is executed based on reasoning from the LLM.
-
----
-
-# **Project Structure**
-  main.py                 → FastAPI server and /solve endpoint  
-  agent.py                → LangGraph agent logic  
-  tools/                  → Modular tool functions  
-      web_scraper.py  
-      download_file.py  
-      code_generate_and_run.py  
-      send_request.py  
-      add_dependencies.py  
-  pyproject.toml          → Dependencies  
-  Dockerfile              → Container image  
-  README.md               → Documentation  
-
----
+* **Orchestrator:** **LangGraph** state machine for managing multi-step flows and decisions.
+* **Reasoning Engine:** **Google Gemini 2.5 Flash** directs the execution and planning.
+* **Deployment:** Packaged using **FastAPI** and **Docker** for scalable web deployment.
 
 
 ---
 
+## 🛠️ Capabilities
 
+The agent is equipped with specialized tools to handle the entire data analysis lifecycle:
 
----
-
-
-
-# **Docker Deployment**
-
-Build the image:  
-docker build -t llm-agent .
-
-Run the container:  
-docker run -p 7860:7860  
-  -e EMAIL="24f2001081@ds.study.iitm.ac.in"  
-  -e SECRET="JD_IN"  
-  -e GOOGLE_API_KEY="your_api_key"  
-  llm-agent  
+| Capability | Tool Used | Purpose |
+| :--- | :--- | :--- |
+| **Data Sourcing** | Web Scraper (Playwright) | Renders and extracts content from dynamic (JavaScript-heavy) web pages. |
+| **File Handling** | File Downloader | Securely fetches files (CSV, PDF, etc.) referenced in the quizzes. |
+| **Analysis** | Code Executor | Writes and runs Python code on demand for data manipulation, statistics, and visualization. |
+| **Task Completion** | POST Request | Submits final, calculated answers and handles quiz feedback. |
 
 ---
 
-# **How It Works**
-1. FastAPI receives the quiz URL  
-2. LangGraph initializes an agent with memory  
-3. The agent analyzes the page and selects the required tools  
-4. Tools scrape, download, compute, or analyze data  
-5. The result is generated and submitted  
-6. If more quiz pages exist, the agent continues automatically  
-7. The chain ends when no new URL is found  
+## 🚀 Setup and Usage
 
----
+### Prerequisites
 
-# **Author**
-**Shiva Ganesh**  
-Tools in Data Science – IIT Madras  
-For issues, please open a GitHub issue.
+* Python 3.12+
+* uv (recommended package manager) or pip
+* Docker (for containerized deployment)
 
+### Installation
+
+1.  Clone the repository and navigate into the directory.
+2.  Install dependencies and browser requirements:
+    ```bash
+    uv sync
+    uv run playwright install chromium
+    ```
+
+### Configuration
+
+Set the following secrets in a `.env` file for API key and authentication:
+
+```env
+EMAIL=your.email@example.com
+SECRET=your_secret_string
+GOOGLE_API_KEY=your_gemini_api_key_here
